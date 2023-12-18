@@ -12,6 +12,10 @@ keymap.set("n", "<C-l>", "<C-w>l", opts)
 keymap.set("n", "<C-k>", "<C-w>k", opts)
 keymap.set("n", "<C-j>", "<C-w>j", opts)
 
+-- Buffer Navigation
+keymap.set("n", "<leader>bp", "<cmd>bp<CR>", opts)
+keymap.set("n", "<leader>bn", "<cmd>bn<CR>", opts)
+
 -- Window Management
 keymap.set("n", "<leader>sv", vim.cmd.vsplit, opts)
 keymap.set("n", "<leader>sh", vim.cmd.split, opts)

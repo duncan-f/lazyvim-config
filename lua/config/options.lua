@@ -15,12 +15,15 @@ opt.hlsearch = false
 opt.number = true
 opt.relativenumber = true
 opt.termguicolors = true
-opt.colorcolumn = '100'
+opt.updatetime = 50
+opt.colorcolumn = '80'
 opt.signcolumn = 'yes'
 opt.cmdheight = 1
 opt.scrolloff = 10
 opt.completeopt = "menuone,noinsert,noselect"
+opt.isfname:append("@-@")
 
+opt.bg = 'dark'
 opt.hidden = true
 opt.errorbells = false
 opt.swapfile = false
