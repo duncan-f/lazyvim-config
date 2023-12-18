@@ -121,14 +121,29 @@ return {
     lspconfig["graphql"].setup({
       capabilities = capabilities,
       on_attach = on_attach,
-      filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
+      filetypes = {
+        "graphql",
+        "gql",
+        "svelte",
+        "typescriptreact",
+        "javascriptreact"
+      },
     })
 
     -- configure emmet language server
     lspconfig["emmet_ls"].setup({
       capabilities = capabilities,
       on_attach = on_attach,
-      filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
+      filetypes = {
+        "html",
+        "typescriptreact",
+        "javascriptreact",
+        "css",
+        "sass",
+        "scss",
+        "less",
+        "svelte"
+      },
     })
 
     -- configure python server
@@ -139,7 +154,11 @@ return {
         pylsp = {
           plugins = {
             pycodestyle = {
+<<<<<<< HEAD
               ignore = {'W391'},
+=======
+              ignore = {'W391', 'W605'},
+>>>>>>> 3c1488a (:heavy_check_mark: updated some config files)
               maxLineLength = 100
             }
           }
