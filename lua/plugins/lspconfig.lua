@@ -135,6 +135,16 @@ return {
     lspconfig["pylsp"].setup({
       capabilities = capabilities,
       on_attach = on_attach,
+      settings = {
+        pylsp = {
+          plugins = {
+            pycodestyle = {
+              ignore = {'W391'},
+              maxLineLength = 100
+            }
+          }
+        }
+      }
     })
 
     -- configure lua server (with special settings)
