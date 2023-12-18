@@ -154,11 +154,7 @@ return {
         pylsp = {
           plugins = {
             pycodestyle = {
-<<<<<<< HEAD
-              ignore = {'W391'},
-=======
               ignore = {'W391', 'W605'},
->>>>>>> 3c1488a (:heavy_check_mark: updated some config files)
               maxLineLength = 100
             }
           }
