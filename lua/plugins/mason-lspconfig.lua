@@ -2,6 +2,7 @@ return {
   "williamboman/mason-lspconfig.nvim",
   opts = {
     ensure_installed = {
+      "efm",
       "bashls",
       "tsserver",
       "solidity",

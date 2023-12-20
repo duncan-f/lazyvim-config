@@ -22,19 +22,19 @@ keymap.set("n", "<leader>sh", vim.cmd.split, opts)
 keymap.set("n", "<leader>sm", vim.cmd.MaximizerToggle, opts)
 
 -- Tabs
-keymap.set("n", "<leader>nt",	vim.cmd.tabnew, opts)
-keymap.set("n", "<leader>ct",	vim.cmd.tabclose, opts)
-keymap.set("n", "<leader>pt",	vim.cmd.tabprevious, opts)
-keymap.set("n", "<leader>nn",	vim.cmd.tabnext, opts)
+keymap.set("n", "<leader>nt", vim.cmd.tabnew, opts)
+keymap.set("n", "<leader>ct", vim.cmd.tabclose, opts)
+keymap.set("n", "<leader>pt", vim.cmd.tabprevious, opts)
+keymap.set("n", "<leader>nn", vim.cmd.tabnext, opts)
 
 -- map keys for Copy/Pasting
-keymap.set("x", "<leader>p", "\"_dP", opts)
-keymap.set("n", "<leader>y", "\"+y", opts)
-keymap.set("v", "<leader>y", "\"+y", opts)
-keymap.set("n", "<leader>Y", "gg\"+yG", opts)
-keymap.set("v", "<leader>d", "\"+d", opts)
-keymap.set("n", "<leader>v", "\"+p", opts)
-keymap.set("n", "<leader>a", "<Esc>\"_ggVG", opts)
+keymap.set("x", "<leader>p", '"_dP', opts)
+keymap.set("n", "<leader>y", '"+y', opts)
+keymap.set("v", "<leader>y", '"+y', opts)
+keymap.set("n", "<leader>Y", 'gg"+yG', opts)
+keymap.set("v", "<leader>d", '"+d', opts)
+keymap.set("n", "<leader>v", '"+p', opts)
+keymap.set("n", "<leader>a", '<Esc>"_ggVG', opts)
 
 -- Indenting
 keymap.set("v", "<", "<gv", opts)
@@ -57,19 +57,5 @@ keymap.set("n", "<leader>x", ":!chmod +x <c-r>%<CR>")
 keymap.set("n", "<leader>pw", ":!opout <c-r>%<CR><CR>")
 
 keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
+	vim.cmd("so")
 end)
-
--- Clear tex files builds
-vim.api.nvim_create_autocmd({'VimLeave'}, { pattern = '*.tex', command = '!texclear %' })
-
--- Ensure of filetype when a new/read file is opened
-vim.api.nvim_create_autocmd({'BufRead','BufNewFile'}, { pattern = '*.tex', command = 'set filetype=tex' })
-
--- source config files when saving
-vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = '*bashrc,*zshrc', command = '!source %' })
-vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = '*Xresources,*Xdefaults', command = '!xrdb %' })
-vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = 'files,directories', command = '!shortcuts' })
-
--- Delete trailing spaces when saving files
-vim.cmd([[ autocmd BufWritePre * %s/\s\+$//e ]])
