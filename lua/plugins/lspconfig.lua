@@ -126,14 +126,14 @@ return {
 		lspconfig.cssls.setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "css" },
+			filetypes = { "css", "scss", "sass", "less" },
 		})
 
 		-- configure tailwindcss server
 		lspconfig.tailwindcss.setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "css" },
+			filetypes = { "css", "scss", "sass", "less" },
 		})
 
 		-- configure graphql language server
@@ -187,10 +187,6 @@ return {
 							enabled = true,
 							profile = "black",
 						},
-						-- pycodestyle = {
-						--   ignore = {'W391', 'W605'},
-						--   maxLineLength = 100
-						-- }
 					},
 				},
 			},
@@ -208,7 +204,6 @@ return {
 
 		local luacheck = require("efmls-configs.linters.luacheck")
 		local stylua = require("efmls-configs.formatters.stylua")
-		-- local pyflakes = require("efmls-configs.linters.pyflakes")
 		local flake8 = require("efmls-configs.linters.flake8")
 		local black = require("efmls-configs.formatters.black")
 		local eslint = require("efmls-configs.linters.eslint")
