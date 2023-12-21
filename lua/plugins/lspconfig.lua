@@ -83,6 +83,11 @@ return {
 			on_attach = on_attach,
 			settings = { -- custom settings for lua
 				Lua = {
+					runtime = {
+						-- Tell the language server which version of Lua you're using
+						-- (most likely LuaJIT in the case of Neovim)
+						version = "LuaJIT",
+					},
 					-- make the language server recognize "vim" global
 					diagnostics = {
 						globals = { "vim" },
@@ -93,6 +98,10 @@ return {
 							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 							[vim.fn.stdpath("config") .. "/lua"] = true,
 						},
+					},
+					-- Do not send telemetry data containing a randomized but unique identifier
+					telemetry = {
+						enable = false,
 					},
 				},
 			},
@@ -204,7 +213,7 @@ return {
 
 		local luacheck = require("efmls-configs.linters.luacheck")
 		local stylua = require("efmls-configs.formatters.stylua")
-		local flake8 = require("efmls-configs.linters.flake8")
+		local ruff = require("efmls-configs.linters.ruff")
 		local black = require("efmls-configs.formatters.black")
 		local eslint = require("efmls-configs.linters.eslint")
 		local prettier_d = require("efmls-configs.formatters.prettier_d")
@@ -249,7 +258,7 @@ return {
 			settings = {
 				languages = {
 					lua = { luacheck, stylua },
-					python = { flake8, black },
+					python = { ruff, black },
 					typescript = { eslint, prettier_d },
 					json = { eslint, fixjson },
 					jsonc = { eslint, fixjson },
