@@ -145,6 +145,13 @@ return {
 			filetypes = { "css", "scss", "sass", "less" },
 		})
 
+		-- configure astro server
+		lspconfig.astro.setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			filetypes = { "astro" },
+		})
+
 		-- configure graphql language server
 		lspconfig.graphql.setup({
 			capabilities = capabilities,
@@ -211,6 +218,13 @@ return {
 			},
 		})
 
+    -- LaTex
+    lspconfig.ltex.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "tex", "bib" },
+    })
+
 		local luacheck = require("efmls-configs.linters.luacheck")
 		local stylua = require("efmls-configs.formatters.stylua")
 		local ruff = require("efmls-configs.linters.ruff")
@@ -224,6 +238,8 @@ return {
 		local solhint = require("efmls-configs.linters.solhint")
 		local cpplint = require("efmls-configs.linters.cpplint")
 		local clangformat = require("efmls-configs.formatters.clang_format")
+		local vale = require("efmls-configs.linters.vale")
+		local latexindent = require("efmls-configs.formatters.latexindent")
 
 		-- configure efm server
 		lspconfig.efm.setup({
@@ -246,6 +262,8 @@ return {
 				"css",
 				"c",
 				"cpp",
+				"tex",
+        "bib",
 			},
 			init_options = {
 				documentFormatting = true,
@@ -263,6 +281,7 @@ return {
 					json = { eslint, fixjson },
 					jsonc = { eslint, fixjson },
 					sh = { shellcheck, shfmt },
+					astro = { eslint, prettier_d },
 					javascript = { eslint, prettier_d },
 					javascriptreact = { eslint, prettier_d },
 					typescriptreact = { eslint, prettier_d },
@@ -275,6 +294,8 @@ return {
 					css = { prettier_d },
 					c = { clangformat, cpplint },
 					cpp = { clangformat, cpplint },
+					tex = { vale, latexindent },
+					bib = { vale, latexindent },
 				},
 			},
 		})
