@@ -5,7 +5,7 @@ return {
 		routes = {
 			{
 				view = "notify",
-				filter = { event = "msg_showmode" },
+				filter = { event = "msg_showmode", find = "No information available" },
 			},
 		},
 		lsp = {
@@ -40,6 +40,7 @@ return {
 			},
 			config = function()
 				require("notify").setup({
+					timeout = 5000,
 					background_colour = "#000000",
 				})
 			end,

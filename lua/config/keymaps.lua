@@ -4,7 +4,6 @@ local opts = { noremap = true, silent = true }
 
 -- Directory Navigation
 keymap.set("n", "<leader>n", vim.cmd.Ex, opts)
--- keymap.set("n", "<leader>m", vim.cmd.NvimTreeFocus, opts)
 
 -- Pane Navigation
 keymap.set("n", "<C-h>", "<C-w>h", opts)
