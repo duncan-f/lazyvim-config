@@ -1,8 +1,8 @@
 return {
-  "morhetz/gruvbox",
+	"ellisonleao/gruvbox.nvim",
 	lazy = false,
 	priority = 999,
 	config = function()
 		vim.cmd.colorscheme("gruvbox")
-	end
+	end,
 }
