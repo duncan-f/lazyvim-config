@@ -1,13 +1,13 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -17,12 +17,12 @@ require("config.keymaps")
 require("config.autocmds")
 
 local opts = {
-  root = vim.fn.stdpath("data") .. "/lazy", -- directory where plugins will be installed
-  defaults = {
-    lazy = true, -- should plugins be lazy-loaded?
-  },
-  install = {
-	  colorscheme = { "gruvbox" }
+	root = vim.fn.stdpath("data") .. "/lazy", -- directory where plugins will be installed
+	defaults = {
+		lazy = true, -- should plugins be lazy-loaded?
+	},
+	install = {
+		colorscheme = { "nightfox" },
 	},
 	rtp = {
 		disabled_plugins = {
@@ -41,4 +41,4 @@ local opts = {
 	},
 }
 
-require("lazy").setup('plugins', opts)
+require("lazy").setup("plugins", opts)
