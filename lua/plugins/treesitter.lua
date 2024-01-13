@@ -4,6 +4,7 @@ local config = function()
 		indent = {
 			enable = true,
 		},
+		ignore_install = {},
 		autotag = {
 			enable = true,
 		},
@@ -26,7 +27,7 @@ local config = function()
 			"gitignore",
 			"python",
 		},
-    sync_install = false,
+		sync_install = false,
 		auto_install = true,
 		highlight = {
 			enable = true,
@@ -47,7 +48,6 @@ end
 return {
 	"nvim-treesitter/nvim-treesitter",
 	lazy = false,
-  version = nil,
+	version = nil,
 	config = config,
 }
-

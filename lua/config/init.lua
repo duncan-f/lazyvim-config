@@ -22,14 +22,13 @@ local opts = {
 		lazy = true, -- should plugins be lazy-loaded?
 	},
 	install = {
-		colorscheme = { "nightfox" },
+		colorscheme = { "carbonfox" },
 	},
 	rtp = {
 		disabled_plugins = {
 			"gzip",
 			"matchit",
 			"matchparen",
-			"netrwPlugin",
 			"tarPlugin",
 			"tohtml",
 			"tutor",

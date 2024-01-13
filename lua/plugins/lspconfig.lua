@@ -2,8 +2,9 @@ return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
-		"windwp/nvim-autopairs",
+		{ "folke/neodev.nvim", opts = {} },
 		"williamboman/mason.nvim",
+		"williamboman/mason-lspconfig.nvim",
 		"hrsh7th/nvim-cmp",
 		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-nvim-lsp",
@@ -12,7 +13,6 @@ return {
 	},
 	config = function()
 		require("neoconf").setup({})
-		require("neodev").setup({})
 
 		-- import lspconfig plugin
 		local lspconfig = require("lspconfig")
@@ -68,7 +68,8 @@ return {
 		end
 
 		-- used to enable autocompletion (assign to every lsp server config)
-		local capabilities = cmp_nvim_lsp.default_capabilities()
+		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
 		-- (not in youtube nvim video)
@@ -78,10 +79,12 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
+		require("neodev").setup({})
+
 		-- configure lua server (with special settings)
 		lspconfig.lua_ls.setup({
-			capabilities = capabilities,
 			on_attach = on_attach,
+			capabilities = capabilities,
 			settings = { -- custom settings for lua
 				Lua = {
 					runtime = {
@@ -128,6 +131,9 @@ return {
 			on_attach = on_attach,
 			filetypes = {
 				"typescript",
+				"javascript",
+				"typescriptreact",
+				"javascriptreact",
 			},
 			root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", ".git"),
 		})
@@ -175,6 +181,7 @@ return {
 				"typescriptreact",
 				"javascriptreact",
 				"javascript",
+				"typescript",
 				"css",
 				"sass",
 				"scss",
