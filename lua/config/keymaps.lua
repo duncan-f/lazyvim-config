@@ -14,6 +14,7 @@ keymap.set("n", "<C-j>", "<C-w>j", opts)
 -- Buffer Navigation
 keymap.set("n", "<leader>bp", "<cmd>bp<CR>", opts)
 keymap.set("n", "<leader>bn", "<cmd>bn<CR>", opts)
+keymap.set("n", "<leader>bd", "<cmd>bd<CR>", opts)
 
 -- Window Management
 keymap.set("n", "<leader>sv", vim.cmd.vsplit, opts)

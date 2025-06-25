@@ -15,16 +15,23 @@ return {
 		require("neoconf").setup({})
 
 		-- import lspconfig plugin
-		local lspconfig = require("lspconfig")
+		-- local lspconfig = require("lspconfig")
+		local lspconfig_status, lspconfig = pcall(require, "lspconfig")
+		if not lspconfig_status then
+			return
+		end
 
 		-- import cmp-nvim-lsp plugin
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
+		-- local cmp_nvim_lsp = require("cmp_nvim_lsp")
+		local cmp_nvim_lsp_status, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+		if not cmp_nvim_lsp_status then
+			return
+		end
 
 		local keymap = vim.keymap -- for conciseness
 
-		local opts = { noremap = true, silent = true }
 		local on_attach = function(_, bufnr)
-			opts.buffer = bufnr
+			local opts = { noremap = true, silent = true, buffer = bufnr }
 
 			-- set keybinds
 			opts.desc = "Show LSP references"
@@ -41,6 +48,9 @@ return {
 
 			opts.desc = "Show buffer diagnostics"
 			keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+
+			opts.desc = "Show harpoon marks"
+			keymap.set("n", "<leader>m", "<cmd>Telescope harpoon marks<CR>", opts) -- show  diagnostics for file
 
 			opts.desc = "Go to declaration"
 			keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
@@ -71,18 +81,61 @@ return {
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-		-- Change the Diagnostic symbols in the sign column (gutter)
-		-- (not in youtube nvim video)
-		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-		end
+		require("vim.lsp.protocol").CompletionItemKind = {
+			"", -- Text
+			"0", -- Method
+			"0", -- Function
+			"", -- Constructor
+			"", -- Field
+			"", -- Variable
+			"", -- Class
+			"ﰮ", -- Interface
+			"", -- Module
+			"", -- Property
+			"", -- Unit
+			"", -- Value
+			"了", -- Enum
+			"", -- Keyword
+			"﬌", -- Snippet
+			"", -- Color
+			"", -- File
+			"", -- Reference
+			"", -- Folder
+			"", -- EnumMember
+			"", -- Constant
+			"", -- Struct
+			"", -- Event
+			"ﬦ", -- Operator
+			"", -- TypeParameter
+		}
+
+		vim.diagnostic.config({
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = " ",
+					[vim.diagnostic.severity.WARN] = " ",
+					[vim.diagnostic.severity.HINT] = "󰠠 ",
+					[vim.diagnostic.severity.INFO] = " ",
+				},
+				texthl = {
+					[vim.diagnostic.severity.ERROR] = "Error",
+					[vim.diagnostic.severity.WARN] = "Warning",
+					[vim.diagnostic.severity.HINT] = "Hint",
+					[vim.diagnostic.severity.INFO] = "Info",
+				},
+				numhl = {
+					[vim.diagnostic.severity.ERROR] = "",
+					[vim.diagnostic.severity.WARN] = "",
+					[vim.diagnostic.severity.HINT] = "",
+					[vim.diagnostic.severity.INFO] = "",
+				},
+			},
+		})
 
 		require("neodev").setup({})
 
 		-- configure lua server (with special settings)
-		lspconfig.lua_ls.setup({
+		lspconfig["lua_ls"].setup({
 			on_attach = on_attach,
 			capabilities = capabilities,
 			settings = { -- custom settings for lua
@@ -111,94 +164,86 @@ return {
 			},
 		})
 
-		-- configure html server
-		lspconfig.html.setup({
+		-- configure assembly server
+		lspconfig["asm_lsp"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "html" },
-		})
+    })
+
+		-- configure html server
+		lspconfig["html"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+    })
 
 		-- json
-		lspconfig.jsonls.setup({
+		lspconfig["jsonls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "json", "jsonc" },
-		})
+    })
 
 		-- configure typescript server with plugin
-		lspconfig.tsserver.setup({
+		lspconfig["ts_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = {
-				"typescript",
-				"javascript",
-				"typescriptreact",
-				"javascriptreact",
+			settings = {
+				init_options = { hostInfo = "neovim" },
+				cmd = { "typescript-language-server", "--stdio" },
+				filetypes = {
+					"javascript",
+					"javascriptreact",
+					"javascript.jsx",
+					"typescript",
+					"typescriptreact",
+					"typescript.tsx",
+				},
 			},
-			root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", ".git"),
 		})
+
+		-- configure intelephense server for php
+		lspconfig["intelephense"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+    })
 
 		-- configure css server
-		lspconfig.cssls.setup({
+		lspconfig["cssls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "css", "scss", "sass", "less" },
-		})
+    })
 
 		-- configure tailwindcss server
-		lspconfig.tailwindcss.setup({
+		lspconfig["tailwindcss"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "css", "scss", "sass", "less" },
-		})
+    })
 
 		-- configure astro server
-		lspconfig.astro.setup({
+		lspconfig["astro"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "astro" },
-		})
+    })
 
 		-- configure graphql language server
-		lspconfig.graphql.setup({
+		lspconfig["graphql"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = {
-				"graphql",
-				"gql",
-				"svelte",
-				"typescriptreact",
-				"javascriptreact",
-			},
-		})
+    })
 
 		-- configure emmet language server
-		lspconfig.emmet_ls.setup({
+		lspconfig["emmet_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = {
-				"html",
-				"typescriptreact",
-				"javascriptreact",
-				"javascript",
-				"typescript",
-				"css",
-				"sass",
-				"scss",
-				"less",
-				"svelte",
-			},
-		})
+    })
 
 		-- bash
-		lspconfig.bashls.setup({
+		lspconfig["bashls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "sh", "aliasrc" },
-		})
+    })
 
 		-- configure python server
-		lspconfig.pylsp.setup({
+		lspconfig["pylsp"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = {
@@ -217,7 +262,7 @@ return {
 		})
 
 		-- C/C++
-		lspconfig.clangd.setup({
+		lspconfig["clangd"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			cmd = {
@@ -227,11 +272,10 @@ return {
 		})
 
 		-- LaTex
-		lspconfig.ltex.setup({
+		lspconfig["texlab"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "tex", "bib" },
-		})
+    })
 
 		local luacheck = require("efmls-configs.linters.luacheck")
 		local stylua = require("efmls-configs.formatters.stylua")
@@ -248,9 +292,12 @@ return {
 		local clangformat = require("efmls-configs.formatters.clang_format")
 		local vale = require("efmls-configs.linters.vale")
 		local latexindent = require("efmls-configs.formatters.latexindent")
+		-- local asmfmt = require("efmls-configs.formatters.asmfmt")
+		-- local phpcs = require("efmls-configs.linters.phpcs")
+		-- local pint = require("efmls-configs.formatters.pint")
 
 		-- configure efm server
-		lspconfig.efm.setup({
+		vim.lsp.config("efm", {
 			filetypes = {
 				"lua",
 				"python",
@@ -272,6 +319,8 @@ return {
 				"cpp",
 				"tex",
 				"bib",
+				"php",
+				"asm",
 			},
 			init_options = {
 				documentFormatting = true,
@@ -283,20 +332,21 @@ return {
 			},
 			settings = {
 				languages = {
+					-- asm = { asmfmt },
 					lua = { luacheck, stylua },
 					python = { ruff, black },
+					javascript = { eslint, prettier_d },
 					typescript = { eslint, prettier_d },
+					javascriptreact = { eslint, prettier_d },
+					typescriptreact = { eslint, prettier_d },
+					vue = { eslint, prettier_d },
+					svelte = { eslint, prettier_d },
+					astro = { eslint, prettier_d },
+					markdown = { prettier_d },
+					docker = { hadolint, prettier_d },
 					json = { eslint, fixjson },
 					jsonc = { eslint, fixjson },
 					sh = { shellcheck, shfmt },
-					astro = { eslint, prettier_d },
-					javascript = { eslint, prettier_d },
-					javascriptreact = { eslint, prettier_d },
-					typescriptreact = { eslint, prettier_d },
-					svelte = { eslint, prettier_d },
-					vue = { eslint, prettier_d },
-					markdown = { prettier_d },
-					docker = { hadolint, prettier_d },
 					solidity = { solhint },
 					html = { prettier_d },
 					css = { prettier_d },
@@ -304,6 +354,7 @@ return {
 					cpp = { clangformat, cpplint },
 					tex = { vale, latexindent },
 					bib = { vale, latexindent },
+					-- php = { phpcs, pint },
 				},
 			},
 		})

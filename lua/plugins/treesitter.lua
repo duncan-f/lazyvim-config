@@ -5,9 +5,9 @@ local config = function()
 			enable = true,
 		},
 		ignore_install = {},
-		autotag = {
-			enable = true,
-		},
+		-- autotag = {
+		-- 	enable = true,
+		-- },
 		event = {
 			"BufReadPre",
 			"BufNewFile",
@@ -47,6 +47,7 @@ end
 
 return {
 	"nvim-treesitter/nvim-treesitter",
+  branch = 'master',
 	lazy = false,
 	version = nil,
 	config = config,
